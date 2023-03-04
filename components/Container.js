@@ -9,21 +9,21 @@ export default function Container(props) {
     const router = useRouter();
 
     const meta = {
-        title: 'TITLE',
-        description: ``,
+        title: 'Code templates marketplace',
+        description: ` Accelerate your development by creating and managing code templates.`,
         image: '',
         type: 'website',
         ...customMeta
     };
 
-    return ( //TODO change parameters
-        <div className="bg-gray-50 dark:bg-gray-900">
+    return (
+        <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
             <Head>
                 <title>{meta.title}</title>
                 <meta name="robots" content="follow, index" />
                 <meta content={meta.description} name="description" />
                 <meta property="og:type" content={meta.type} />
-                <meta property="og:site_name" content="Pauline" />
+                <meta property="og:site_name" content="Code marketplace" />
                 <meta property="og:description" content={meta.description} />
                 <meta property="og:title" content={meta.title} />
                 <meta property="og:image" content={meta.image} />
@@ -36,12 +36,12 @@ export default function Container(props) {
                     <meta property="article:published_time" content={meta.date} />
                 )}
             </Head>
-            <Navbar/>
-            
-            <main id="main"  className="flex flex-col justify-center px-8 bg-gray-50 dark:bg-gray-900">
+
+            <main id="main" className="flex flex-col justify-center bg-gray-50 dark:bg-gray-900 min-h-screen">
                 {children}
             </main>
-            <Footer/>
+
+            <Footer />
         </div>
     )
 }

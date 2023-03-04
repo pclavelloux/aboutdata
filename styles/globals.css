@@ -3,8 +3,44 @@
 @tailwind utilities;
 
 
+
 /* Additional styles */
 @import 'additional-styles/utility-patterns.css';
 @import 'additional-styles/range-slider.css';
 @import 'additional-styles/toggle-switch.css';
 @import 'additional-styles/theme.css';
+
+
+
+h1 {
+    color: rgb(20 184 166);
+    font-weight: 700;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+}
+
+h2 {
+    color: rgb(20 184 166);
+}
+
+h3 {
+    color: rgb(20 184 166);
+}
+
+a {
+    color: rgb(20 184 166);
+}
+
+a:hover {
+    color: rgb(29, 222, 199);
+}
+
+p {
+    --tw-text-opacity: 1;
+    color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+ul li {
+    --tw-text-opacity: 1;
+    color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+

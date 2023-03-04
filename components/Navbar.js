@@ -1,35 +1,101 @@
-
-import { useRouter } from 'next/router';
-import NextLink from 'next/link';
-
-
-function NavItem({ href, text }) {
-    const router = useRouter();
-    const isActive = router.asPath === href;
-
-    return (
-        <NextLink
-            href={href}
-            className= 'font-semibold text-gray-800 dark:text-gray-200 hidden md:inline-block p-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-all'
-        >
-            <span className="capsize">{text}</span>
-        </NextLink>
-    );
-}
+import Link from 'next/link';
+import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 
 export default function Navbar() {
+
+    const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+    const trigger = useRef(null);
+    const mobileNav = useRef(null);
+
+    // close the mobile menu on click outside
+    useEffect(() => {
+        const clickHandler = ({ target }) => {
+            if (!mobileNav.current || !trigger.current) return;
+            if (!mobileNavOpen || mobileNav.current.contains(target) || trigger.current.contains(target)) return;
+            setMobileNavOpen(false);
+        };
+        document.addEventListener('click', clickHandler);
+        return () => document.removeEventListener('click', clickHandler);
+    });
+
+    // close the mobile menu if the esc key is pressed
+    useEffect(() => {
+        const keyHandler = ({ keyCode }) => {
+            if (!mobileNavOpen || keyCode !== 27) return;
+            setMobileNavOpen(false);
+        };
+        document.addEventListener('keydown', keyHandler);
+        return () => document.removeEventListener('keydown', keyHandler);
+    });
+
     return (
         <>
-            <div className="flex flex-col justify-center px-8">
-                <nav className="flex items-right justify-end w-full relative border-gray-200 dark:border-gray-700 mx-auto pt-8 pb-8 sm:pb-16  text-gray-900 bg-gray-50  dark:bg-gray-900 bg-opacity-60 dark:text-gray-100">
-                    <div className="">
-                        <NavItem href="/" text="Home" />
-                        <NavItem href="/#project" text="Menu1" />
-                        <NavItem href="https://aboutstartup.io/" text="Menu2" />
-                        <NavItem href="/#tweets" text="Menu3" />
+            <header className="absolute relative w-full z-30">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div className="flex items-center justify-between h-20">
+
+                        {/* Site branding */}
+                        <div className="shrink-0 mr-4">
+                            {/* Logo */}
+                            <Link href="/">
+                                <Image
+                                    alt="Best data ressources logo"
+                                    height={60}
+                                    width={70}
+                                    src="/images/AboutData-logo.png"
+                                    sizes="15vw"
+                                    priority
+                                    className="flex relative items-left justify-items-start"
+                                />
+                            </Link>
+                        </div>
+
+                        {/* Desktop navigation */}
+                        <nav className="hidden md:flex md:grow">
+
+                            {/* Desktop links */}
+                            <ul className="flex grow justify-end flex-wrap items-center">
+                                <li>
+                                    <Link href="/" className=" px-4 py-3 flex items-center transition duration-150 ease-in-out">Home</Link>
+                                </li>
+                                <li>
+                                    <Link href="/submit-resource" className=" px-4 py-3 flex items-center transition duration-150 ease-in-out">Submit a resource</Link>
+                                </li>
+                                
+                            </ul>
+
+                        </nav>
+
+                        {/* Mobile menu */}
+                        <div className="md:hidden">
+
+                            {/* Hamburger button */}
+                            <button ref={trigger} className={`hamburger ${mobileNavOpen && 'active'}`} aria-controls="mobile-nav" aria-expanded={mobileNavOpen} onClick={() => setMobileNavOpen(!mobileNavOpen)}>
+                                <span className="sr-only">Menu</span>
+                                <svg className="w-6 h-6 fill-current text-gray-300 hover:text-gray-200 transition duration-150 ease-in-out" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <rect y="4" width="24" height="2" rx="1" />
+                                    <rect y="11" width="24" height="2" rx="1" />
+                                    <rect y="18" width="24" height="2" rx="1" />
+                                </svg>
+                            </button>
+
+                            {/*Mobile navigation */}
+                            <nav id="mobile-nav" ref={mobileNav} className="absolute top-full z-20 left-0 w-full px-4 sm:px-6 overflow-hidden transition-all duration-300 ease-in-out" style={mobileNavOpen ? { maxHeight: mobileNav.current.scrollHeight, opacity: 1 } : { maxHeight: 0, opacity: .8 }}>
+                                <ul className="bg-gray-800 px-4 py-2">
+                                    <li>
+                                        <Link href="/" className="flex text-gray-300 hover:text-gray-200 py-2">Home</Link>
+                                    </li>
+                                    <li>
+                                        <Link href="/submit-resource" className="flex text-gray-300 hover:text-gray-200 py-2">Submit a resource</Link>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
-                </nav>
-            </div>
+                </div>
+            </header>
         </>
     )
 }
