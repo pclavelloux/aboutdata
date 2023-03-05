@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 
+
 export default function home(props) {
   const router = useRouter()
   const [query, setQuery] = useState('');
@@ -54,11 +55,11 @@ export default function home(props) {
       </div>
 
       <div id="project" className="" data-aos="fade-up">
-        <div id="tags" className="content-center flex justify-center items-center">
+        <div id="categories" className="content-center flex justify-center items-center">
           <p className="text-gray-700 dark:text-gray-200 mr-4 ">Categories:</p>
-          {props.tags.map((tag) => (
-            <Link key={uuidv4()} href={`/tag/${tag}`}>
-              <span className="inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600">{tag}</span>
+          {props.categories.map((category) => (
+            <Link key={uuidv4()} href={`/category/${category}`}>
+              <span className="inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600">{category}</span>
             </Link>
           ))}
         </div>
@@ -69,50 +70,47 @@ export default function home(props) {
           <div key={uuidv4()} className="grid xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4">
             {/* Card */}
             {filtered.map((product, index) => (
-              < div key={uuidv4()} className=" bg-white h-full shadow-lg rounded-sm border border-slate-200 duration-300 hover:-translate-y-1" >
+              < div key={uuidv4()} className=" bg-white shadow-lg rounded-sm border border-slate-200 duration-300 hover:-translate-y-1" >
 
-                <div key={uuidv4()} className="flex flex-col h-full">
+                <div key={uuidv4()} className="flex flex-col ">
                   {/* Image */}
 
-                  <Link href={`/product/${product.id.toString()}`}>
+                  <Link href={product.url_resource}  target="_blank">
                     <div className="relative">
                       <Image key={uuidv4()}
                         alt={product.description}
                         height={301}
                         width={226}
                         style={{ objectFit: "cover" }}
-                        src= {product.url_img ? product.url_img : "/images/no_image.png"} //{product.url_img ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/public-resources/${product.url_img}` : "/images/no_image.png"}
+                        src={product.url_img ? product.url_img : "/images/no_image.png"} //{product.url_img ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/public-resources/${product.url_img}` : "/images/no_image.png"}
                         priority
                         className="rounded-t w-full h-36"
-                        blurDataURL="/images/code.jpg"
-                        placeholder="blur"
                         onError={(e) => {
                           e.target.src = "/images/no_image.png";
                         }} />
                     </div>
 
                     {/* Card Content */}
-                    <div className="grow flex flex-col p-3 text-slate-600">
+                    <div className="grow flex flex-col p-3 text-slate-600 ">
                       {/* Card body */}
                       <div className="grow">
                         <header className="mb-2">
                           <h3 className="text-lg  font-semibold mb-1">{product.title}</h3>
-
-
                         </header>
 
-                        <div className="text-sm w-fit">
-                          {product.description.length > 250 ?
+                        <div className="text-sm h-28">
+                          <span>{product.description.length > 250 ?
                             `${product.description.substring(0, 220)}...` : product.description
-                          }
+                          }</span>
+
+
                         </div>
-                        <h3 className='mt-1'>Categories:</h3>
                         <div>
-                          {product.categories.split(';').map((tag, index) => (
+                          {product.categories.split(';').map((category, index) => (
                             <span key={uuidv4()}>
                               {index > 3 ? (null)
                                 :
-                                (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{tag}</span>
+                                (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{category}</span>
                                 )}
                             </span>
                           ))}
@@ -136,16 +134,15 @@ export default function home(props) {
   )
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const { data: product_details } = await supabase.from("Resources").select("*").eq("status", "published");
-  console.log(product_details)
-  const tags = Array.from(new Set(product_details.flatMap((product) => product.categories.split(';')))); // Need to convert "Set" in an array
 
-  console.log(tags)
+  const categories = Array.from(new Set(product_details.flatMap((product) => product.categories.split(';')))); // Need to convert "Set" in an array
+
   return {
     props: {
       product_details,
-      tags,
+      categories,
     },
   };
 };

@@ -9,8 +9,8 @@ export default function Container(props) {
     const router = useRouter();
 
     const meta = {
-        title: 'Code templates marketplace',
-        description: ` Accelerate your development by creating and managing code templates.`,
+        title: 'Best data resources',
+        description: `Best blogs, twitter account, courses etc about data (data science, machine learning, data analysis...)`,
         image: '',
         type: 'website',
         ...customMeta
@@ -23,7 +23,7 @@ export default function Container(props) {
                 <meta name="robots" content="follow, index" />
                 <meta content={meta.description} name="description" />
                 <meta property="og:type" content={meta.type} />
-                <meta property="og:site_name" content="Code marketplace" />
+                <meta property="og:site_name" content="About Data" />
                 <meta property="og:description" content={meta.description} />
                 <meta property="og:title" content={meta.title} />
                 <meta property="og:image" content={meta.image} />

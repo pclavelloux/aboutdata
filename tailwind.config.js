@@ -28,6 +28,7 @@ module.exports = {
       spacing: {
         '90': '22rem',
         '110': '27rem',
+        '180': '34rem',
       },
 
       typography: {

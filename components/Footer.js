@@ -9,12 +9,8 @@ export default function Footer() {
                     <div className="md:flex md:items-center md:justify-between py-6 md:py-8 border-t border-slate-200">
                         {/* Copyright */}
                         <div className="text-sm text-slate-500 mr-4">&copy;
-                            <Link href="https://wintopy.io">Wintopy SAS</Link>. All rights reserved. <br />
-                            <Link href="/legal/terms-use">TOS</Link>&nbsp;-&nbsp;
-                            <Link href="/legal/privacy">Privacy</Link>&nbsp;-&nbsp;
-                            <Link href="/legal/licences">Licences</Link>&nbsp;-&nbsp;
-                            <Link href="/faq">FAQ</Link>&nbsp; -&nbsp;
-                            <Link href="/contact">Contact</Link>
+                           Made with <span className='text-red-400'>♥</span> by <Link href="https://twitter.com/Pauline_Cx"  target="_blank">Pauline </Link>
+                            
                         </div>
                         <br />
                     </div>

@@ -15,13 +15,14 @@ export default function submitResource() {
         url_resource: "",
         url_img: "",
         categories: "",
+        tags:"",
         status: "unpublished",
         featured: "",
     };
 
     const [resourceData, setResourceData] = useState(initialState);
 
-    const { title, description, url_resource, url_img, categories } = resourceData;
+    const { title, description, url_resource, url_img, categories, tags } = resourceData;
 
 
     // When form value is changed
@@ -42,28 +43,25 @@ export default function submitResource() {
                         description,
                         url_resource,
                         url_img,
+                        tags,
                         categories,
                     },
                 ])
                 .select('*')
                 .single();
-                console.log("TEST")
                 console.log(resourceData);
 
             if (resourceData) {
-                console.log("2")
                 console.log(resourceData);
+                alert("Resource succesfully sent, thank you!");
             } else if (resourceError) {
-                console.log("AA");
-                console.log(resourceError);
+                alert("Something went wrong, please try again or contact Pauline_Cx to report this issue");
+
             }
         }
         catch (error) {
-            console.log("NNNN");
             alert(error.message);
         }
-        console.log("TESTEND")
-
     }
 
 
@@ -95,7 +93,7 @@ export default function submitResource() {
                                                         required
                                                     />
 
-                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Enter image link</h3>
+                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Enter an image link <span className='text-xs'>(If relevant)</span></h3> 
 
                                                     <div className="md:flex md:items-center mb-6">
                                                         <Form type="text" name="url_img" id="url_img" placeholder="https://pbs.twimg.com/profile_images/1610205816648245250/e2kaBgcJ_400x400.jpg" value={url_img} onChange={handleChange} />
@@ -120,8 +118,18 @@ export default function submitResource() {
                                                         <textarea
                                                             name="categories"
                                                             className=" block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
-                                                            rows={2} placeholder="Twitter account;Course;Blog"
+                                                            rows={1} placeholder="Twitter account;Course;Blog"
                                                             value={categories} onChange={handleChange}
+                                                        ></textarea>
+                                                    </label>
+
+                                                    <label className="block mb-6">
+                                                        <h3 className=" leading-snug mt-5 font-bold mb-1">Tags  <span className='text-xs'>(separated with ";")</span></h3>
+                                                        <textarea
+                                                            name="tags"
+                                                            className=" block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+                                                            rows={1} placeholder="Data science;Dataviz"
+                                                            value={tags} onChange={handleChange}
                                                         ></textarea>
                                                     </label>
 
