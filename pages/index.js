@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import { useState } from 'react'
-import { useRouter } from 'next/router'
 
 
 export default function Home(props) {
@@ -67,7 +66,7 @@ export default function Home(props) {
         <section className="bg-gray-100 dark:bg-gray-900 py-10 px-12">
 
           {/* Content */}
-          <div key={uuidv4()} className="grid xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4">
+          <div key={uuidv4()} className="grid md:grid-cols-4  sm:grid-cols-3 gap-4">
             {/* Card */}
             {filtered.map((product, index) => (
               < div key={uuidv4()} className=" bg-white shadow-lg rounded-sm border border-slate-200 duration-300 hover:-translate-y-1" >
