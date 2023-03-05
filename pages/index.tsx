@@ -81,7 +81,7 @@ export default function home(props) {
                         height={301}
                         width={226}
                         style={{ objectFit: "cover" }}
-                        src={product.url_img ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/public-resources/${product.url_img}` : "/images/no_image.png"}
+                        src= {product.url_img ? product.url_img : "/images/no_image.png"} //{product.url_img ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/public-resources/${product.url_img}` : "/images/no_image.png"}
                         priority
                         className="rounded-t w-full h-36"
                         blurDataURL="/images/code.jpg"
@@ -101,7 +101,7 @@ export default function home(props) {
 
                         </header>
 
-                        <div className="text-sm">
+                        <div className="text-sm w-fit">
                           {product.description.length > 250 ?
                             `${product.description.substring(0, 220)}...` : product.description
                           }
