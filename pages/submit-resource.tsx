@@ -114,7 +114,7 @@ export default function SubmitResource() {
                                                     </label>
 
                                                     <label className="block mb-6">
-                                                        <h3 className=" leading-snug mt-5 font-bold mb-1">Main categories*  <span className='text-xs'> - separated with ";"</span></h3>
+                                                        <h3 className=" leading-snug mt-5 font-bold mb-1">Main categories*  <span className='text-xs'>(separated with ';')</span></h3>
                                                         <textarea
                                                             name="categories"
                                                             className=" block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
@@ -124,7 +124,7 @@ export default function SubmitResource() {
                                                     </label>
 
                                                     <label className="block mb-6">
-                                                        <h3 className=" leading-snug mt-5 font-bold mb-1">Tags  <span className='text-xs'> - separated with ";"</span></h3>
+                                                        <h3 className=" leading-snug mt-5 font-bold mb-1">Tags  <span className='text-xs'>(separated with `;`)</span></h3>
                                                         <textarea
                                                             name="tags"
                                                             className=" block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
