@@ -9,8 +9,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 
-export default function home(props) {
-  const router = useRouter()
+export default function Home(props) {
+
   const [query, setQuery] = useState('');
 
   //Our search filter function
