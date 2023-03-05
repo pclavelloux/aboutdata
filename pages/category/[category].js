@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
-import { useState, useEffect } from 'react'
-import { getAllCategories } from '@/lib/supabase';
+import { useState } from 'react'
 
 
 export default function Category({ products, category }) {
