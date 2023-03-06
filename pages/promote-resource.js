@@ -5,12 +5,45 @@ import Link from 'next/link';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
-import { useState } from 'react'
+import { useState } from 'react';
 
 
 export default function Promote(props) {
 
+    const [category, setCategory] = useState('Twitter Account');
+    const [resourceId, setResourceId] = useState(null);
+    const [totalFeatured, setTotalFeatured] = useState(null);
+
+
+
     const [query, setQuery] = useState('');
+
+    const handleCategoryChange = async (e) => {
+        const newCategory = e.target.value;
+        const newId = e.target.id;
+        setCategory(newCategory);
+        setResourceId(newId);
+        const newTotalFeatured = await getTotalFeaturedByCategory(newCategory);
+        setTotalFeatured(newTotalFeatured);
+        console.log(newTotalFeatured);
+    };
+
+    async function getTotalFeaturedByCategory(category) {
+        const { data: products, error } = await supabase
+            .from('Resources')
+            .select()
+            .eq('categories', category)
+
+        if (error) throw error
+
+        const totalFeatured = products.reduce(
+            (total, product) => total + (product.featured ? 1 : 0),
+            0
+        )
+
+        return totalFeatured
+    }
+
 
     //Our search filter function
     const searchFilter = (array) => {
@@ -40,6 +73,16 @@ export default function Promote(props) {
                         {/* Hero content */}
                         <div>
                             <h2>Promote a resource</h2>
+                            <p>Click on the resource you want to promote</p>
+                            <div>
+
+                                {totalFeatured !== null && (
+                                    <p>
+                                        Total featured for {category}: {totalFeatured}
+                                    </p>
+                                )}
+                                {totalFeatured > 8 ? ("Sorry, all promoted seats have been filled.") : ("OK")}
+                            </div>
                         </div>
                         <div>
                             <h3>The advantage of promoting a resource: <br />
@@ -75,70 +118,71 @@ export default function Promote(props) {
             </div>
 
             <div id="project" className="" data-aos="fade-up">
-                <div id="categories" className="content-center flex justify-center items-center">
-                    <p className="text-gray-200 mr-4 ">Categories:</p>
-                    {props.categories.map((category) => (
-                        <Link key={uuidv4()} href={`/category/${category}`}>
-                            <span className="inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600">{category}</span>
-                        </Link>
-                    ))}
-                </div>
 
                 <section className="bg-gray-900 py-10 px-12">
-
                     {/* Content */}
                     <div key={uuidv4()} className="grid md:grid-cols-4  sm:grid-cols-3 gap-4">
                         {/* Card */}
                         {filtered.map((product, index) => (
+
                             < div key={uuidv4()} className=" bg-white shadow-lg rounded-sm border border-slate-200 duration-300 hover:-translate-y-1" >
+                                <form>
+                                    <label>
+                                        <div key={uuidv4()} className="flex flex-col ">
+                                            {/* Image */}
+                                            <div className="relative">
+                                                <Image key={uuidv4()}
+                                                    alt={product.description}
+                                                    height={301}
+                                                    width={226}
+                                                    style={{ objectFit: "cover" }}
+                                                    src={product.url_img ? product.url_img : "/images/no_image.png"}
+                                                    priority
+                                                    className="rounded-t w-full h-36"
+                                                    onError={(e) => {
+                                                        e.target.src = "/images/no_image.png";
+                                                    }} />
+                                            </div>
 
-                                <div key={uuidv4()} className="flex flex-col ">
-                                    {/* Image */}
+                                            {/* Card Content */}
+                                            <div className="grow flex flex-col p-3 text-slate-600 ">
+                                                {/* Card body */}
+                                                <div className="grow">
+                                                    <header className="mb-2">
+                                                        <h3 className="text-lg  font-semibold mb-1">{product.title}</h3>
+                                                    </header>
 
-                                    <Link href={product.url_resource} target="_blank">
-                                        <div className="relative">
-                                            <Image key={uuidv4()}
-                                                alt={product.description}
-                                                height={301}
-                                                width={226}
-                                                style={{ objectFit: "cover" }}
-                                                src={product.url_img ? product.url_img : "/images/no_image.png"}
-                                                priority
-                                                className="rounded-t w-full h-36"
-                                                onError={(e) => {
-                                                    e.target.src = "/images/no_image.png";
-                                                }} />
-                                        </div>
-
-                                        {/* Card Content */}
-                                        <div className="grow flex flex-col p-3 text-slate-600 ">
-                                            {/* Card body */}
-                                            <div className="grow">
-                                                <header className="mb-2">
-                                                    <h3 className="text-lg  font-semibold mb-1">{product.title}</h3>
-                                                </header>
-
-                                                <div className="text-sm h-28">
-                                                    <span>{product.description.length > 250 ?
-                                                        `${product.description.substring(0, 220)}...` : product.description
-                                                    }</span>
+                                                    <div className="text-sm h-28">
+                                                        <span>{product.description.length > 250 ?
+                                                            `${product.description.substring(0, 220)}...` : product.description
+                                                        }</span>
 
 
-                                                </div>
-                                                <div>
-                                                    {product.categories.split(';').map((category, index) => (
-                                                        <span key={uuidv4()}>
-                                                            {index > 3 ? (null)
-                                                                :
-                                                                (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{category}</span>
-                                                                )}
-                                                        </span>
-                                                    ))}
+                                                    </div>
+                                                    <div>
+                                                        {product.categories.split(';').map((category, index) => (
+                                                            <span key={uuidv4()}>
+                                                                {index > 3 ? (null)
+                                                                    :
+                                                                    (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{category}</span>
+                                                                    )}
+                                                            </span>
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <input
+                                                id={product.id}
+                                                type="radio"
+                                                name="resource"
+                                                value={product.categories}
+                                                onChange={handleCategoryChange}
+                                                checked={parseInt(resourceId) === parseInt(product.id)}
+                                            />
                                         </div>
-                                    </Link>
-                                </div>
+
+                                    </label>
+                                </form>
                             </div>
                         )
                         )
