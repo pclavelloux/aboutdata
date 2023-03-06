@@ -12,6 +12,7 @@ export default function Home(props) {
 
   const [query, setQuery] = useState('');
 
+  console.log(props.product_details)
   //Our search filter function
   const searchFilter = (array) => {
     return array.filter(
@@ -55,7 +56,7 @@ export default function Home(props) {
 
       <div id="project" className="" data-aos="fade-up">
         <div id="categories" className="content-center flex justify-center items-center">
-          <p className="text-gray-200 mr-4 ">Categories:</p>
+          <p className="text-gray-700 dark:text-gray-200 mr-4 ">Categories:</p>
           {props.categories.map((category) => (
             <Link key={uuidv4()} href={`/category/${category}`}>
               <span className="inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600">{category}</span>
@@ -74,14 +75,14 @@ export default function Home(props) {
                 <div key={uuidv4()} className="flex flex-col ">
                   {/* Image */}
 
-                  <Link href={product.url_resource}  target="_blank">
+                  <Link href={product.url_resource} target="_blank">
                     <div className="relative">
                       <Image key={uuidv4()}
                         alt={product.description}
                         height={301}
                         width={226}
                         style={{ objectFit: "cover" }}
-                        src={product.url_img ? product.url_img : "/images/no_image.png"} 
+                        src={product.url_img ? product.url_img : "/images/no_image.png"}
                         priority
                         className="rounded-t w-full h-36"
                         onError={(e) => {
@@ -105,13 +106,10 @@ export default function Home(props) {
 
                         </div>
                         <div>
-                          {product.categories.split(';').map((category, index) => (
-                            <span key={uuidv4()}>
-                              {index > 3 ? (null)
-                                :
-                                (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{category}</span>
-                                )}
-                            </span>
+                          <span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{product.categories}</span>
+
+                          {product.tags && product.tags.trim() !== "" && product.tags.split(";").map(tag => (
+                            <span key={uuidv4()} className="inline-flex px-1 mr-1 py-1  text-sm text-slate-400 text-center">#{tag}</span>
                           ))}
                         </div>
                       </div>
@@ -136,7 +134,14 @@ export default function Home(props) {
 export const getServerSideProps = async () => {
   const { data: product_details } = await supabase.from("Resources").select("*").eq("status", "published");
 
-  const categories = Array.from(new Set(product_details.flatMap((product) => product.categories.split(';')))); // Need to convert "Set" in an array
+
+  const categories = Array.from(new Set(product_details.flatMap((product) => {
+    if (product.categories) {
+      return product.categories.split(';');
+    }
+    return [];
+  })));
+
 
   return {
     props: {
