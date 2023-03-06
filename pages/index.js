@@ -126,8 +126,8 @@ export default function Home(props) {
         </section>
       </div>
       <div className='text-center text-gray-400'></div>
- 
- 
+
+
     </Container >
   </>
   )
