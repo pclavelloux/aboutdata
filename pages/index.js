@@ -30,13 +30,13 @@ export default function Home(props) {
   return (<>
     <Container>
       <Navbar />
-      <div className="flex flex-col justify-center items-center max-w-2xl border-gray-200 dark:border-gray-700 mx-auto pb-16">
+      <div className="flex flex-col justify-center items-center max-w-2xl border-gray-700 mx-auto pb-16">
         <div className="flex flex-col-reverse sm:flex-row items-center text-center">
           <div className="flex flex-col" >
             <h1 className="h1 text-5xl mb-2 bg-gradient-to-r bg-clip-text  text-center text-transparent  from-teal-500 via-teal-600 to-blue-600 animate-text pb-1" >
               All about data
             </h1>
-            <h2 className="dark:text-gray-400 mb-4 ">
+            <h2 className="text-gray-400 mb-4 ">
               Best data resources on internet
               <br />For all data enthusiasts
             </h2>
@@ -55,7 +55,7 @@ export default function Home(props) {
 
       <div id="project" className="" data-aos="fade-up">
         <div id="categories" className="content-center flex justify-center items-center">
-          <p className="text-gray-700 dark:text-gray-200 mr-4 ">Categories:</p>
+          <p className="text-gray-200 mr-4 ">Categories:</p>
           {props.categories.map((category) => (
             <Link key={uuidv4()} href={`/category/${category}`}>
               <span className="inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600">{category}</span>
@@ -63,7 +63,7 @@ export default function Home(props) {
           ))}
         </div>
 
-        <section className="bg-gray-100 dark:bg-gray-900 py-10 px-12">
+        <section className="bg-gray-900 py-10 px-12">
 
           {/* Content */}
           <div key={uuidv4()} className="grid md:grid-cols-4  sm:grid-cols-3 gap-4">
