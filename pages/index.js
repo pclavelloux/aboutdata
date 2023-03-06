@@ -12,7 +12,6 @@ export default function Home(props) {
 
   const [query, setQuery] = useState('');
 
-  console.log(props.product_details)
   //Our search filter function
   const searchFilter = (array) => {
     return array.filter(
