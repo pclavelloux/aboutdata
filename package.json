@@ -6,7 +6,8 @@
     "create-env": "printenv > .env",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
+    //"start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
