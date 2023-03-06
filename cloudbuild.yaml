@@ -1,0 +1,29 @@
+
+steps:
+  # build the container images
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      ["build", "-t", "gcr.io/wintopy-front/aboutdata", "./client"]
+
+  # push the container images to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/wintopy-front/aboutdata"]
+
+  # Deploy container images to Cloud Run
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      [
+        "run",
+        "deploy",
+        "aboutdata",
+        "--image",
+        "gcr.io/wintopy-front/aboutdata",
+        "--region",
+        "us-central1",
+        "--platform",
+        "managed",
+        "--quiet",
+        "--allow-unauthenticated",
+      ]
+images:
+  - gcr.io/wintopy-front/aboutdata
