@@ -80,7 +80,7 @@ export default function Home(props) {
                       <Image key={uuidv4()}
                         alt={product.description}
                         height={301}
-                        width={226}
+                        width={301}
                         style={{ objectFit: "cover" }}
                         src={product.url_img ? product.url_img : "/images/no_image.png"}
                         priority
