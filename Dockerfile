@@ -12,6 +12,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ARG _NEXT_PUBLIC_SUPABASE_URL
+ARG _NEXT_PUBLIC_SUPABASE_ANON_KEY
+ENV _NEXT_PUBLIC_SUPABASE_URL=$_NEXT_PUBLIC_SUPABASE_URL
+ENV _NEXT_PUBLIC_SUPABASE_ANON_KEY=$_NEXT_PUBLIC_SUPABASE_ANON_KEY
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
@@ -24,6 +28,10 @@ FROM node:alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
+ARG _NEXT_PUBLIC_SUPABASE_URL
+ARG _NEXT_PUBLIC_SUPABASE_ANON_KEY
+ENV _NEXT_PUBLIC_SUPABASE_URL=$_NEXT_PUBLIC_SUPABASE_URL
+ENV _NEXT_PUBLIC_SUPABASE_ANON_KEY=$_NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
