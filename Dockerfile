@@ -11,8 +11,6 @@ COPY package.json package-lock.json* ./
 RUN NODE_ENV=development npm i
 
 ENV NODE_ENV production
-ENV _NEXT_PUBLIC_SUPABASE_URL
-ENV _NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 # Rebuild the source code only when needed
 FROM base AS builder

@@ -1,29 +1,44 @@
-
 steps:
-  # build the container images
-  - name: "gcr.io/cloud-builders/docker"
+  - name: gcr.io/cloud-builders/docker
     args:
-      ["build", "-t", "gcr.io/wintopy-front/aboutdata", "./client"]
-
-  # push the container images to Container Registry
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/wintopy-front/aboutdata"]
-
-  # Deploy container images to Cloud Run
-  - name: "gcr.io/cloud-builders/gcloud"
+      - build
+      - '--no-cache'
+      - '-t'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - .
+      - '-f'
+      - Dockerfile
+    id: Build
+  - name: gcr.io/cloud-builders/docker
     args:
-      [
-        "run",
-        "deploy",
-        "aboutdata",
-        "--image",
-        "gcr.io/wintopy-front/aboutdata",
-        "--region",
-        "us-central1",
-        "--platform",
-        "managed",
-        "--quiet",
-        "--allow-unauthenticated",
-      ]
+      - push
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+    id: Push
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    args:
+      - run
+      - services
+      - update
+      - $_SERVICE_NAME
+      - '--platform=managed'
+      - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - >-
+        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+    id: Deploy
+    entrypoint: gcloud
 images:
-  - gcr.io/wintopy-front/aboutdata
+  - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+options:
+  substitutionOption: ALLOW_LOOSE
+substitutions:
+  _PLATFORM: managed
+  _SERVICE_NAME: aboutdata-website
+  _TRIGGER_ID: bb98ffea-120e-423e-b852-c292d1af8621
+  _DEPLOY_REGION: europe-west9
+  _GCR_HOSTNAME: eu.gcr.io
+tags:
+  - gcp-cloud-build-deploy-cloud-run
+  - gcp-cloud-build-deploy-cloud-run-managed
+  - aboutdata-website
