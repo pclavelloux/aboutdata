@@ -127,6 +127,7 @@ export default function Home(props) {
       </div>
       <div className='text-center text-gray-400'></div>
  
+ 
     </Container >
   </>
   )
