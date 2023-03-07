@@ -58,7 +58,7 @@ export default function Home(props) {
           <p className="text-gray-700 dark:text-gray-200 mr-4 ">Categories:</p>
           {props.categories.map((category) => (
             <Link key={uuidv4()} href={`/category/${category}`}>
-              <span className="inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600 hover:bg-teal-500">{category}</span>
+              <span className="mt-2 inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600 hover:bg-teal-500">{category}</span>
             </Link>
           ))}
         </div>
