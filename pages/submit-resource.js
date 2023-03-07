@@ -93,7 +93,7 @@ export default function SubmitResource() {
                                                         required
                                                     />
 
-                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Enter an image link <span className='text-xs'>(If relevant)</span></h3> 
+                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Image link <span className='text-xs'>(If relevant)</span></h3> 
 
                                                     <div className="md:flex md:items-center mb-6">
                                                         <Form type="text" name="url_img" id="url_img" placeholder="https://pbs.twimg.com/profile_images/1610205816648245250/e2kaBgcJ_400x400.jpg" value={url_img} onChange={handleChange} />
