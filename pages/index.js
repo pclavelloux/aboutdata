@@ -47,7 +47,7 @@ export default function Home(props) {
                   </path>
                 </svg>
               </div>
-              <input onChange={handleChange} aria-label="Search" type="search" name="search" id="search" className="block w-full p-3 pl-12 text-base leading-6 text-teal-600 placeholder-gray-400 transition duration-150 ease-in-out border-none appearance-none bg-gray-200 focus:outline-none focus:ring-0" placeholder="Search among all codes" />
+              <input onChange={handleChange} aria-label="Search" type="search" name="search" id="search" className="block w-full p-3 pl-12 text-base leading-6 text-teal-600 placeholder-gray-400 transition duration-150 ease-in-out border-none appearance-none bg-gray-200 focus:outline-none focus:ring-0" placeholder="Search among all resources" />
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@ export default function Home(props) {
                         style={{ objectFit: "cover" }}
                         src={product.url_img ? product.url_img : "/images/no_image.png"} 
                         priority
-                        className="rounded-t w-full h-36"
+                        className="rounded-t w-full h-32"
                         onError={(e) => {
                           e.target.src = "/images/no_image.png";
                         }} />
