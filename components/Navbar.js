@@ -63,7 +63,7 @@ export default function Navbar() {
                                 <li>
                                     <Link href="/submit-resource" className=" px-4 py-3 flex items-center transition duration-150 ease-in-out">Submit a resource</Link>
                                 </li>
-                                
+                        
                             </ul>
 
                         </nav>

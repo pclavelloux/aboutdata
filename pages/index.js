@@ -54,14 +54,15 @@ export default function Home(props) {
       </div>
 
       <div id="project" className="" data-aos="fade-up">
-        <div id="categories" className="content-center flex justify-center items-center">
+        <div id="categories" className="flex flex-wrap justify-center items-center max-w-full">
           <p className="text-gray-700 dark:text-gray-200 mr-4 ">Categories:</p>
           {props.categories.map((category) => (
             <Link key={uuidv4()} href={`/category/${category}`}>
-              <span className="inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600">{category}</span>
+              <span className="inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600 hover:bg-teal-500">{category}</span>
             </Link>
           ))}
         </div>
+
 
         <section className="bg-gray-900 py-10 px-12">
 
