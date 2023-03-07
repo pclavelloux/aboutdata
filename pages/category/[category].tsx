@@ -6,15 +6,29 @@ import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import { useState } from 'react'
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
 
+interface Product {
+  title: string;
+  description: string;
+  url_resource : string;
+  url_img : string;
+  categories: string;
 
-export default function Category({ products, category }) {
+}
+
+interface Props {
+  products: Product[];
+  category: string;
+}
+
+export default function Category({ products, category }: Props) {
 
 
   const [query, setQuery] = useState('');
 
    //Our search filter function
-   const searchFilter = (array) => {
+   const searchFilter = (array: any[]) => {
     return array.filter(
       (el) => el.title.toLowerCase().includes(query) || el.description.toLowerCase().includes(query)
     )
@@ -25,7 +39,7 @@ export default function Category({ products, category }) {
 
 
   //Handling the input on our search bar
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
   }
 
@@ -89,9 +103,7 @@ export default function Category({ products, category }) {
                        src={product.url_img ? product.url_img : "/images/no_image.png"} //{product.url_img ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/public-resources/${product.url_img}` : "/images/no_image.png"}
                        priority
                        className="rounded-t w-full h-36"
-                       onError={(e) => {
-                         e.target.src = "/images/no_image.png";
-                       }} />
+                      />
                    </div>
 
                    {/* Card Content */}
@@ -110,7 +122,7 @@ export default function Category({ products, category }) {
 
                        </div>
                        <div>
-                         {product.categories.split(';').map((category, index) => (
+                         {product.categories.split(';').map((category: string | null, index: number) => (
                            <span key={uuidv4()}>
                              {index > 3 ? (null)
                                :
@@ -134,28 +146,28 @@ export default function Category({ products, category }) {
     </>
   )
 }
-export async function getStaticPaths() {
+
+export const getStaticPaths: GetStaticPaths = async () => {
   const { data: products } = await supabase.from("Resources").select("categories");
 
-  const categories = new Set(products.flatMap((product) => product.categories.split(';').filter(Boolean)));  // Create a page for each tag (splitted with ";")
+  const categories = new Set<string>(products?.flatMap((product) => product.categories.split(';').filter(Boolean)));  // Create a page for each tag (splitted with ";")
 
   return {
-    paths: [...categories].map((category) => {
+    paths: [...categories].map((category: string) => {
       return {
         params: {
           category
         }
       }
     }),
-    fallback: false,
+    fallback: true,
   };
 }
 
-export async function getStaticProps({ params: { category } }) {
+export const getStaticProps: GetStaticProps = async(context) => {
 
+  const  category  = context.params?.category;
   const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`)
-
-
 
   return {
     props: {
