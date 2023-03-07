@@ -115,12 +115,11 @@ export default function Promote(props: PromoteProps) {
 
                         </div>
                         <div className='text-center  col-span-4'>
-                        <h3 className='h4 font-semibold text-orange-300'>Benefits of promoting a resource</h3>
+                            <h3 className='h4 font-semibold text-orange-300'>Benefits of promoting a resource</h3>
                             <p>
-                                - Resource on top of its corresponding category
-                                - Higher visibility
-                                - Increase traffic
-                                - Generate prospects
+                                - Resource on top of its corresponding category <br />
+                                - Higher visibility <br />
+                                - Increase traffic <br />
                             </p>
                         </div>
 
@@ -154,83 +153,83 @@ export default function Promote(props: PromoteProps) {
                     </div>
                 </div>
             </div>
-        
-        <div id="project" className="" data-aos="fade-up">
 
-            <section className="bg-gray-900 py-10 px-12">
-                {/* Content */}
-                <div key={uuidv4()} className="grid md:grid-cols-4  sm:grid-cols-3 gap-4">
-                    {/* Card */}
-                    {filtered.map((product, index) => (
+            <div id="project" className="" data-aos="fade-up">
 
-                        < div key={uuidv4()} className=" bg-white shadow-lg rounded-sm border border-slate-200 duration-300 hover:-translate-y-1" >
-                            <form>
-                                <label>
-                                    <div key={uuidv4()} className="flex flex-col ">
-                                        <input
-                                            id={product.id}
-                                            type="radio"
-                                            name="resource"
-                                            value={product.categories}
-                                            onChange={handleCategoryChange}
-                                            checked={parseInt(resourceId) === parseInt(product.id)}
-                                        />
-                                        {/* Image */}
-                                        <div className="relative">
-                                            <Image key={uuidv4()}
-                                                alt={product.description}
-                                                height={301}
-                                                width={226}
-                                                style={{ objectFit: "cover" }}
-                                                src={product.url_img ? product.url_img : "/images/no_image.png"}
-                                                priority
-                                                className="rounded-t w-full h-32"
+                <section className="bg-gray-900 py-10 px-12">
+                    {/* Content */}
+                    <div key={uuidv4()} className="grid md:grid-cols-4  sm:grid-cols-3 gap-4">
+                        {/* Card */}
+                        {filtered.map((product, index) => (
+
+                            < div key={uuidv4()} className=" bg-white shadow-lg rounded-sm border border-slate-200 duration-300 hover:-translate-y-1" >
+                                <form>
+                                    <label>
+                                        <div key={uuidv4()} className="flex flex-col ">
+                                            <input
+                                                id={product.id}
+                                                type="radio"
+                                                name="resource"
+                                                value={product.categories}
+                                                onChange={handleCategoryChange}
+                                                checked={parseInt(resourceId) === parseInt(product.id)}
                                             />
-                                        </div>
+                                            {/* Image */}
+                                            <div className="relative">
+                                                <Image key={uuidv4()}
+                                                    alt={product.description}
+                                                    height={301}
+                                                    width={226}
+                                                    style={{ objectFit: "cover" }}
+                                                    src={product.url_img ? product.url_img : "/images/no_image.png"}
+                                                    priority
+                                                    className="rounded-t w-full h-32"
+                                                />
+                                            </div>
 
-                                        {/* Card Content */}
-                                        <div className="grow flex flex-col p-3 text-slate-600 ">
-                                            {/* Card body */}
-                                            <div className="grow">
-                                                <header className="mb-2">
-                                                    <h3 className="text-lg  font-semibold mb-1">{product.title}</h3>
-                                                </header>
+                                            {/* Card Content */}
+                                            <div className="grow flex flex-col p-3 text-slate-600 ">
+                                                {/* Card body */}
+                                                <div className="grow">
+                                                    <header className="mb-2">
+                                                        <h3 className="text-lg  font-semibold mb-1">{product.title}</h3>
+                                                    </header>
 
-                                                <div className="text-sm h-28">
-                                                    <span>{product.description.length > 250 ?
-                                                        `${product.description.substring(0, 220)}...` : product.description
-                                                    }</span>
+                                                    <div className="text-sm h-28">
+                                                        <span>{product.description.length > 250 ?
+                                                            `${product.description.substring(0, 220)}...` : product.description
+                                                        }</span>
 
 
-                                                </div>
-                                                <div>
-                                                    {product.categories.split(';').map((category, index) => (
-                                                        <span key={uuidv4()}>
-                                                            {index > 3 ? (null)
-                                                                :
-                                                                (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{category}</span>
-                                                                )}
-                                                        </span>
-                                                    ))}
+                                                    </div>
+                                                    <div>
+                                                        {product.categories.split(';').map((category, index) => (
+                                                            <span key={uuidv4()}>
+                                                                {index > 3 ? (null)
+                                                                    :
+                                                                    (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{category}</span>
+                                                                    )}
+                                                            </span>
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         </div>
 
-                                    </div>
-
-                                </label>
-                            </form>
-                        </div>
-                    )
-                    )
-                    }
-                </div>
-            </section>
-        </div>
-        <div className='text-center text-gray-400'></div>
+                                    </label>
+                                </form>
+                            </div>
+                        )
+                        )
+                        }
+                    </div>
+                </section>
+            </div>
+            <div className='text-center text-gray-400'></div>
 
 
-    </Container >
+        </Container >
     </>
     )
 }

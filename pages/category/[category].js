@@ -153,7 +153,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params: { category } }) {
 
-  const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`)
+  const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`).order("featured_duration", { ascending: true }, {nullsLast: true})
 
 
   return {

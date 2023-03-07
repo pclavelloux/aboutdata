@@ -143,7 +143,7 @@ export default function SubmitResource() {
                                                     <div className='pt-6'>
                                                         <button
                                                             type="submit"
-                                                            className="h-10 px-5 bg-teal-500 text-white rounded-lg transition-colors duration-150 focus:shadow-outline hover:bg-teal-600 "
+                                                            className="h-10 px-5 bg-teal-500 text-white rounded-lg transition-colors duration-150 focus:shadow-outline hover:bg-teal-600"
                                                             onClick={createResource}
                                                         >
                                                             <span>Add your code</span>

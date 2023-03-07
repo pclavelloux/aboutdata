@@ -54,14 +54,15 @@ export default function Home(props) {
       </div>
 
       <div id="project" className="" data-aos="fade-up">
-        <div id="categories" className="content-center flex justify-center items-center">
-          <p className="text-gray-200 mr-4 ">Categories:</p>
+        <div id="categories" className="flex flex-wrap justify-center items-center max-w-full">
+          <p className="text-gray-700 dark:text-gray-200 mr-4 ">Categories:</p>
           {props.categories.map((category) => (
             <Link key={uuidv4()} href={`/category/${category}`}>
-              <span className="inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600">{category}</span>
+              <span className="mt-2 inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600 hover:bg-teal-500">{category}</span>
             </Link>
           ))}
         </div>
+
 
         <section className="bg-gray-900 py-10 px-12">
 
@@ -74,16 +75,16 @@ export default function Home(props) {
                 <div key={uuidv4()} className="flex flex-col ">
                   {/* Image */}
 
-                  <Link href={product.url_resource}  target="_blank">
+                  <Link href={product.url_resource} target="_blank">
                     <div className="relative">
                       <Image key={uuidv4()}
                         alt={product.description}
                         height={301}
-                        width={226}
+                        width={301}
                         style={{ objectFit: "cover" }}
-                        src={product.url_img ? product.url_img : "/images/no_image.png"} 
+                        src={product.url_img ? product.url_img : "/images/no_image.png"}
                         priority
-                        className="rounded-t w-full h-32"
+                        className="rounded-t w-full h-36"
                         onError={(e) => {
                           e.target.src = "/images/no_image.png";
                         }} />
@@ -105,13 +106,12 @@ export default function Home(props) {
 
                         </div>
                         <div>
-                          {product.categories.split(';').map((category, index) => (
-                            <span key={uuidv4()}>
-                              {index > 3 ? (null)
-                                :
-                                (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{category}</span>
-                                )}
-                            </span>
+                          <span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{product.categories}</span>
+                          
+                          {product.featured ? (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">Featured</span>) : (null)}
+
+                          {product.tags && product.tags.trim() !== "" && product.tags.split(";").map(tag => (
+                            <span key={uuidv4()} className="inline-flex px-1 mr-1 py-1  text-sm text-slate-400 text-center">#{tag}</span>
                           ))}
                         </div>
                       </div>
@@ -134,9 +134,16 @@ export default function Home(props) {
 }
 
 export const getServerSideProps = async () => {
-  const { data: product_details } = await supabase.from("Resources").select("*").eq("status", "published");
+  const { data: product_details } = await supabase.from("Resources").select("*").eq("status", "published").order("featured_duration", { ascending: true }, { nullsLast: true });
 
-  const categories = Array.from(new Set(product_details.flatMap((product) => product.categories.split(';')))); // Need to convert "Set" in an array
+
+  const categories = Array.from(new Set(product_details.flatMap((product) => {
+    if (product.categories) {
+      return product.categories.split(';');
+    }
+    return [];
+  })));
+
 
   return {
     props: {
