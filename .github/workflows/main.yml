@@ -10,6 +10,10 @@ env:
   CLOUD_RUN_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
   NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+  STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+  STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+  NEXT_PUBLIC_STRIPE_PRICE_MONTH_PROMOTE: ${{ secrets.NEXT_PUBLIC_STRIPE_PRICE_MONTH_PROMOTE }}
   CLOUD_RUN_REGION: europe-west9
   # project-name but it can be anything you want
   REPO_NAME: aboutdata-website
@@ -35,7 +39,7 @@ jobs:
         gcloud --quiet auth configure-docker
     - name: Build and tag image
       run: |-
-        docker build . --build-arg 'NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}' --build-arg 'NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}' --tag "gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA"
+        docker build . --build-arg 'NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}' --build-arg 'NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}' --build-arg 'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}' --build-arg 'STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}' --build-arg 'STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}' --build-arg 'NEXT_PUBLIC_STRIPE_PRICE_MONTH_PROMOTE=${{ secrets.NEXT_PUBLIC_STRIPE_PRICE_MONTH_PROMOTE }}' --tag "gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA"
     - name: Push image to GCR
       run: |-
         docker push gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA
