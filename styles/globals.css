@@ -31,9 +31,7 @@ a {
     color: rgb(20 184 166);
 }
 
-a:hover {
-    color: rgb(29, 222, 199);
-}
+
 
 p {
     --tw-text-opacity: 1;

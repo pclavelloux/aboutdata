@@ -116,40 +116,67 @@ export default function SubmitResource() {
                                                         value={description}
                                                         maxLength={160}
                                                         onChange={handleChange}
-                                                    ></textarea>
-                                                </label>
 
-                                                <label className="block mb-6">
-                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Main category*  <span className='text-xs'></span></h3>
-                                                    <textarea
-                                                        name="categories"
-                                                        className=" block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
-                                                        rows={1} placeholder="Twitter account;Course;Blog"
-                                                        value={categories} onChange={handleChange}
-                                                    ></textarea>
-                                                </label>
+                                                        required
+                                                    />
 
-                                                <label className="block mb-6">
-                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Tags  <span className='text-xs'>(separated with &apos;;&apos;)</span></h3>
-                                                    <textarea
-                                                        name="tags"
-                                                        className=" block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
-                                                        rows={1} placeholder="Data science;Dataviz"
-                                                        value={tags} onChange={handleChange}
-                                                    ></textarea>
-                                                </label>
+                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Enter an image link <span className='text-xs'>(If relevant)</span></h3> 
 
-                                                <p> Once submitted, your resource will be reviewed before being published</p>
+                                                    <div className="md:flex md:items-center mb-6">
+                                                        <Form type="text" name="url_img" id="url_img" placeholder="https://pbs.twimg.com/profile_images/1610205816648245250/e2kaBgcJ_400x400.jpg" value={url_img} onChange={handleChange} />
+                                                    </div>
 
-                                                <div className='pt-6'>
-                                                    <button
-                                                        type="submit"
-                                                        className="h-10 px-5 bg-teal-500 text-white rounded-lg transition-colors duration-150 focus:shadow-outline hover:bg-teal-600 "
-                                                        onClick={createResource}
-                                                    >
-                                                        <span>Add your code</span>
-                                                    </button>
-                                                </div>
+                                                    <label className="block mb-6">
+                                                        <h3 className=" leading-snug mt-5 font-bold mb-1">Enter a short description <span className='text-xs'>(160 caracters max)</span>
+                                                        </h3>
+
+                                                        <textarea
+                                                            name="description"
+                                                            className=" block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+                                                            rows={3} placeholder="Creators who share data science tips"
+                                                            value={description}
+                                                            maxLength={160}
+                                                            onChange={handleChange}
+                                                        ></textarea>
+                                                    </label>
+
+                                                    <label className="block mb-6">
+                                                        <h3 className=" leading-snug mt-5 font-bold mb-1">Main categories*  <span className='text-xs'>(separated with &apos;;&apos;)</span></h3>
+                                                        <textarea
+                                                            name="categories"
+                                                            className=" block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+                                                            rows={1} placeholder="Twitter account;Course;Blog"
+                                                            value={categories} onChange={handleChange}
+                                                        ></textarea>
+                                                    </label>
+
+                                                    <label className="block mb-6">
+                                                        <h3 className=" leading-snug mt-5 font-bold mb-1">Tags  <span className='text-xs'>(separated with &apos;;&apos;)</span></h3>
+                                                        <textarea
+                                                            name="tags"
+                                                            className=" block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+                                                            rows={1} placeholder="Data science;Dataviz"
+                                                            value={tags} onChange={handleChange}
+                                                        ></textarea>
+                                                    </label>
+
+                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Link to the resource </h3>
+                                                    <p className='text-xs pb-2'>Ex: link to the course, to the twitter profile, to the blog, to the library...</p>
+                                                    <div className="md:flex md:items-center mb-6">
+                                                        <Form type="text" name="url_resource" id="url_resource" placeholder="https://twitter.com/Pauline_Cx" value={url_resource} onChange={handleChange} />
+                                                    </div>
+                                                    <p> Once submitted, your resource will be reviewed before being published</p>
+
+                                                    <div className='pt-6'>
+                                                        <button
+                                                            type="submit"
+                                                            className="h-10 px-5 bg-teal-500 text-white rounded-lg transition-colors duration-150 focus:shadow-outline hover:bg-teal-600"
+                                                            onClick={createResource}
+                                                        >
+                                                            <span>Add your code</span>
+                                                        </button>
+                                                    </div>
+
                                             </section>
                                         </div>
                                     </div>

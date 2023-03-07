@@ -88,7 +88,7 @@ export default function Category({ products, category }) {
                        style={{ objectFit: "cover" }}
                        src={product.url_img ? product.url_img : "/images/no_image.png"} //{product.url_img ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/public-resources/${product.url_img}` : "/images/no_image.png"}
                        priority
-                       className="rounded-t w-full h-36"
+                       className="rounded-t w-full h-32"
                        onError={(e) => {
                          e.target.src = "/images/no_image.png";
                        }} />
@@ -153,8 +153,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params: { category } }) {
 
-  const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`)
-
+  const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`).order("featured_duration", { ascending: true }, {nullsLast: true})
 
 
   return {
