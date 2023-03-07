@@ -15,7 +15,7 @@ export default function SubmitResource() {
         url_resource: "",
         url_img: "",
         categories: "",
-        tags:"",
+        tags: "",
         status: "unpublished",
         featured: "",
     };
@@ -49,7 +49,7 @@ export default function SubmitResource() {
                 ])
                 .select('*')
                 .single();
-                console.log(resourceData);
+            console.log(resourceData);
 
             if (resourceData) {
                 console.log(resourceData);
@@ -80,16 +80,43 @@ export default function SubmitResource() {
                                             <h2 className="h2 mb-4">Add a resource</h2>
 
                                             <section>
-                                                
-                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Name of your resource*</h3>
 
-                                                    <input className="bg-gray-200 w-full  border-2  border-gray-200 rounded py-1 px-1 text-teal-600 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"
-                                                        id="title"
-                                                        name="title"
-                                                        type="text"
-                                                        placeholder=""
-                                                        value={title}
+                                                <h3 className=" leading-snug mt-5 font-bold mb-1">Name of your resource*</h3>
+
+                                                <input className="bg-gray-200 w-full  border-2  border-gray-200 rounded py-1 px-1 text-teal-600 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"
+                                                    id="title"
+                                                    name="title"
+                                                    type="text"
+                                                    placeholder=""
+                                                    value={title}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
+
+
+                                                <h3 className=" leading-snug mt-5 font-bold mb-1">Resource url </h3>
+                                                <p className='text-xs pb-2'>Ex: link to the course, to the twitter profile, to the blog, to the library...</p>
+                                                <div className="md:flex md:items-center mb-6">
+                                                    <Form type="text" name="url_resource" id="url_resource" placeholder="https://twitter.com/Pauline_Cx" value={url_resource} onChange={handleChange} />
+                                                </div>
+
+                                                <h3 className=" leading-snug mt-5 font-bold mb-1">Image link <span className='text-xs'>(If relevant)</span></h3>
+                                                <div className="md:flex md:items-center mb-6">
+                                                    <Form type="text" name="url_img" id="url_img" placeholder="https://pbs.twimg.com/profile_images/1610205816648245250/e2kaBgcJ_400x400.jpg" value={url_img} onChange={handleChange} />
+                                                </div>
+
+                                                <label className="block mb-6">
+                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Enter a short description <span className='text-xs'>(160 caracters max)</span>
+                                                    </h3>
+
+                                                    <textarea
+                                                        name="description"
+                                                        className=" block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+                                                        rows={3} placeholder="Creators who share data science tips"
+                                                        value={description}
+                                                        maxLength={160}
                                                         onChange={handleChange}
+
                                                         required
                                                     />
 
@@ -149,6 +176,7 @@ export default function SubmitResource() {
                                                             <span>Add your code</span>
                                                         </button>
                                                     </div>
+
                                             </section>
                                         </div>
                                     </div>

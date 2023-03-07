@@ -110,6 +110,7 @@ export default function Home(props) {
                           
                           {product.featured ? (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">Featured</span>) : (null)}
 
+
                           {product.tags && product.tags.trim() !== "" && product.tags.split(";").map(tag => (
                             <span key={uuidv4()} className="inline-flex px-1 mr-1 py-1  text-sm text-slate-400 text-center">#{tag}</span>
                           ))}
@@ -143,6 +144,7 @@ export const getServerSideProps = async () => {
     }
     return [];
   })));
+
 
 
   return {
