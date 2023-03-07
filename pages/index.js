@@ -12,10 +12,10 @@ export default function Home(props) {
 
   const [query, setQuery] = useState('');
 
-  //Our search filter function
+  //Our search filter function on description, title or tag
   const searchFilter = (array) => {
     return array.filter(
-      (el) => el.title.toLowerCase().includes(query) || el.description.toLowerCase().includes(query)
+      (el) => el.title.toLowerCase().includes(query) || el.description.toLowerCase().includes(query) || el.tags.toLowerCase().includes(query)
     )
   }
 

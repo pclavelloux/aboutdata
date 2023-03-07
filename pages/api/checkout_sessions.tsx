@@ -14,7 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 price: req.body.price_id,
                 adjustable_quantity: { // Let the user adjust the quantity
                     enabled: true,
-                    maximum: 12,
+                    maximum: 6,
                     minimum: 1,
                 },
                 quantity: 1, // Quantity by default
@@ -22,7 +22,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         ];
 
         try {
-            console.log("fdfdd")
             const session = await stripe.checkout.sessions.create({
                 metadata: {
                     "assetId": resourceId,

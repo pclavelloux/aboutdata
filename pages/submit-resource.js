@@ -100,7 +100,15 @@ export default function SubmitResource() {
                                                         onChange={handleChange}
                                                         required
                                                     />
-                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Enter an image link <span className='text-xs'>(If relevant)</span></h3> 
+
+                                                     <h3 className=" leading-snug mt-5 font-bold mb-1">Link to the resource *</h3>
+                                                    <p className='text-xs pb-2'>Ex: link to the course, the twitter profile, the blog, the library...</p>
+                                                    <div className="md:flex md:items-center mb-6">
+                                                        <Form type="text" name="url_resource" id="url_resource" placeholder="https://twitter.com/Pauline_Cx" value={url_resource} onChange={handleChange} />
+                                                    </div>
+
+
+                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Image link <span className='text-xs'>(If relevant)</span></h3> 
                                                     <div className="md:flex md:items-center mb-6">
                                                         <Form type="text" name="url_img" id="url_img" placeholder="https://pbs.twimg.com/profile_images/1610205816648245250/e2kaBgcJ_400x400.jpg" value={url_img} onChange={handleChange} />
                                                     </div>
@@ -134,11 +142,7 @@ export default function SubmitResource() {
                                                             value={tags} onChange={handleChange}
                                                         ></textarea>
                                                     </label>
-                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Link to the resource *</h3>
-                                                    <p className='text-xs pb-2'>Ex: link to the course, to the twitter profile, to the blog, to the library...</p>
-                                                    <div className="md:flex md:items-center mb-6">
-                                                        <Form type="text" name="url_resource" id="url_resource" placeholder="https://twitter.com/Pauline_Cx" value={url_resource} onChange={handleChange} />
-                                                    </div>
+                                                   
                                                     <p> Once submitted, your resource will be reviewed before being published</p>
                                                     <div className='pt-6'>
                                                         <button
@@ -146,7 +150,7 @@ export default function SubmitResource() {
                                                             className="h-10 px-5 bg-teal-500 text-white rounded-lg transition-colors duration-150 focus:shadow-outline hover:bg-teal-600 "
                                                             onClick={handleSubmit}
                                                         >
-                                                            <span>Add your code</span>
+                                                            <span>Add your resource</span>
                                                         </button>
                                                     </div>
                                             </section>
