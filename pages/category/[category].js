@@ -137,7 +137,7 @@ export default function Category({ products, category }) {
 export async function getStaticPaths() {
   const { data: products } = await supabase.from("Resources").select("categories");
 
-  const categories = new Set(products.flatMap((product) => product.categories.split(';')));  // Create a page for each tag (splitted with ";")
+  const categories = new Set(products.flatMap((product) => product.categories.split(';').filter(Boolean)));  // Create a page for each tag (splitted with ";")
 
   return {
     paths: [...categories].map((category) => {
