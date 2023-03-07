@@ -35,7 +35,7 @@ export default function Category({ products, category }: Props) {
   }
 
     //Applying our search filter function to our array of countries recieved from the API
-    const filtered = searchFilter(products)
+    const filtered = products ? searchFilter(products) : [];
 
 
   //Handling the input on our search bar
