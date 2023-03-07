@@ -30,13 +30,13 @@ export default function Home(props) {
   return (<>
     <Container>
       <Navbar />
-      <div className="flex flex-col justify-center items-center max-w-2xl border-gray-200 dark:border-gray-700 mx-auto pb-16">
+      <div className="flex flex-col justify-center items-center max-w-2xl border-gray-700 mx-auto pb-16">
         <div className="flex flex-col-reverse sm:flex-row items-center text-center">
           <div className="flex flex-col" >
             <h1 className="h1 text-5xl mb-2 bg-gradient-to-r bg-clip-text  text-center text-transparent  from-teal-500 via-teal-600 to-blue-600 animate-text pb-1" >
               All about data
             </h1>
-            <h2 className="dark:text-gray-400 mb-4 ">
+            <h2 className="text-gray-400 mb-4 ">
               Best data resources on internet
               <br />For all data enthusiasts
             </h2>
@@ -47,7 +47,7 @@ export default function Home(props) {
                   </path>
                 </svg>
               </div>
-              <input onChange={handleChange} aria-label="Search" type="search" name="search" id="search" className="block w-full p-3 pl-12 text-base leading-6 text-teal-600 placeholder-gray-400 transition duration-150 ease-in-out border-none appearance-none bg-gray-200 focus:outline-none focus:ring-0" placeholder="Search among all codes" />
+              <input onChange={handleChange} aria-label="Search" type="search" name="search" id="search" className="block w-full p-3 pl-12 text-base leading-6 text-teal-600 placeholder-gray-400 transition duration-150 ease-in-out border-none appearance-none bg-gray-200 focus:outline-none focus:ring-0" placeholder="Search among all resources" />
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@ export default function Home(props) {
           ))}
         </div>
 
-        <section className="bg-gray-100 dark:bg-gray-900 py-10 px-12">
+        <section className="bg-gray-900 py-10 px-12">
 
           {/* Content */}
           <div key={uuidv4()} className="grid md:grid-cols-4  sm:grid-cols-3 gap-4">
@@ -74,14 +74,14 @@ export default function Home(props) {
                 <div key={uuidv4()} className="flex flex-col ">
                   {/* Image */}
 
-                  <Link href={product.url_resource}  target="_blank">
+                  <Link href={product.url_resource} target="_blank">
                     <div className="relative">
                       <Image key={uuidv4()}
                         alt={product.description}
                         height={301}
-                        width={226}
+                        width={301}
                         style={{ objectFit: "cover" }}
-                        src={product.url_img ? product.url_img : "/images/no_image.png"} 
+                        src={product.url_img ? product.url_img : "/images/no_image.png"}
                         priority
                         className="rounded-t w-full h-36"
                         onError={(e) => {
@@ -105,13 +105,10 @@ export default function Home(props) {
 
                         </div>
                         <div>
-                          {product.categories.split(';').map((category, index) => (
-                            <span key={uuidv4()}>
-                              {index > 3 ? (null)
-                                :
-                                (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{category}</span>
-                                )}
-                            </span>
+                          <span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{product.categories}</span>
+
+                          {product.tags && product.tags.trim() !== "" && product.tags.split(";").map(tag => (
+                            <span key={uuidv4()} className="inline-flex px-1 mr-1 py-1  text-sm text-slate-400 text-center">#{tag}</span>
                           ))}
                         </div>
                       </div>
@@ -136,7 +133,14 @@ export default function Home(props) {
 export const getServerSideProps = async () => {
   const { data: product_details } = await supabase.from("Resources").select("*").eq("status", "published");
 
-  const categories = Array.from(new Set(product_details.flatMap((product) => product.categories.split(';')))); // Need to convert "Set" in an array
+
+  const categories = Array.from(new Set(product_details.flatMap((product) => {
+    if (product.categories) {
+      return product.categories.split(';');
+    }
+    return [];
+  })));
+
 
   return {
     props: {
