@@ -1,16 +1,9 @@
 import Stripe from 'stripe';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { supabase } from '@/lib/supabase';
-import { promisify } from 'util';
 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2022-11-15',
-});
-
-const listLineItemsAsync = promisify(stripe.checkout.sessions.listLineItems.bind(stripe.checkout.sessions));
-
-
+// To get the quantity bought and update the duration in db
 const updateFeatureDuration = async (lineItems: Stripe.ApiList<Stripe.LineItem>, asset_id: string) => {
   const now = new Date();
   const isoDate = now.toISOString();
@@ -23,14 +16,12 @@ const updateFeatureDuration = async (lineItems: Stripe.ApiList<Stripe.LineItem>,
   if (error_duration) {
     console.log(`Error update resources webhook featured ${error_duration}`);
   }
-
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
-  /* const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-     apiVersion: '2022-11-15',
-   });
- */
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2022-11-15',
+  });
 
   const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!;
 
@@ -66,39 +57,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<void>
         }).eq('id', asset_id);
 
         if (error) {
-          console.log(`Error update resources webhook featured ${error}`);
+          console.log(`Error to update resources webhook featured ${error}`);
         }
 
 
+        const lineItems = await stripe.checkout.sessions.listLineItems(stripeObject.id);
+        // Get quantity and update the db
+        await updateFeatureDuration(lineItems, asset_id);
 
-        listLineItemsAsync({ sessionId: stripeObject.id, limit: 1 })
-          .then(async (lineItems: Stripe.ApiList<Stripe.LineItem>) => {
-            try {
-              await updateFeatureDuration(lineItems, asset_id);
-            } catch (err: any) {
-              return res.status(400).send(`Update feature duration error: ${err.message}`);
-            }
-          })
-          .catch((err: Error) => {
-            console.log(`Error retrieving line items: ${err.message}`);
-            res.status(400).send(`Error retrieving line items: ${err.message}`);
-          });
-
-        /*
-        stripe.checkout.sessions.listLineItems(
-          stripeObject.id,
-          { limit: 1 },
-          function (err: Error, lineItems: Stripe.ApiList<Stripe.LineItem>) {
-            try {
-              updateFeatureDuration(lineItems, asset_id);
-              return res.status(200).send('Success');
-            } catch (err: any) {
-              return res.status(400).send(`Update feature duration error: ${err.message}`);
-            }
-            return res.status(200).send('Success');
-
-          }
-        );*/
 
       }
 
