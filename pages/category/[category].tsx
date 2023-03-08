@@ -11,8 +11,8 @@ import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
 interface Product {
   title: string;
   description: string;
-  url_resource : string;
-  url_img : string;
+  url_resource: string;
+  url_img: string;
   categories: string;
 
 }
@@ -24,18 +24,20 @@ interface Props {
 
 export default function Category({ products, category }: Props) {
 
+  const [imgSrc, setImgSrc] = React.useState('/assets/no_image.png');
+
 
   const [query, setQuery] = useState('');
 
-   //Our search filter function
-   const searchFilter = (array: any[]) => {
+  //Our search filter function
+  const searchFilter = (array: any[]) => {
     return array.filter(
       (el) => el.title.toLowerCase().includes(query) || el.description.toLowerCase().includes(query)
     )
   }
 
-    //Applying our search filter function to our array of countries recieved from the API
-    const filtered = products ? searchFilter(products) : [];
+  //Applying our search filter function to our array of countries recieved from the API
+  const filtered = products ? searchFilter(products) : [];
 
 
   //Handling the input on our search bar
@@ -77,7 +79,7 @@ export default function Category({ products, category }: Props) {
               All `{category}` resources <br />
             </h3>
 
-              <Link href="/">Go back to all categories</Link>
+            <Link href="/">Go back to all categories</Link>
           </div>
 
 
@@ -87,57 +89,56 @@ export default function Category({ products, category }: Props) {
             <div className="grid grid-flow-row gap-8 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
               {filtered.map((product) => (
-               < div key={uuidv4()} className=" bg-white shadow-lg rounded-sm border border-slate-200 duration-300 hover:-translate-y-1" >
+                < div key={uuidv4()} className=" bg-white shadow-lg rounded-sm border border-slate-200 duration-300 hover:-translate-y-1" >
 
-               <div key={uuidv4()} className="flex flex-col ">
-                 {/* Image */}
+                  <div key={uuidv4()} className="flex flex-col ">
+                    {/* Image */}
 
-                 <Link href={product.url_resource} target="_blank">
-                  
-                   <div className="relative">
-                     <Image key={uuidv4()}
-                       alt={product.description}
-                       height={301}
-                       width={226}
-                       style={{ objectFit: "cover" }}
-                       src={product.url_img ? product.url_img : "/images/no_image.png"} //{product.url_img ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/public-resources/${product.url_img}` : "/images/no_image.png"}
-                       priority
-                       className="rounded-t w-full h-32"
-                       onError={(e) => {
-                         e.target.src = "/images/no_image.png";
-                       }} />
-                   </div>
+                    <Link href={product.url_resource} target="_blank">
 
-                   {/* Card Content */}
-                   <div className="grow flex flex-col p-3 text-slate-600 ">
-                     {/* Card body */}
-                     <div className="grow">
-                       <header className="mb-2">
-                         <h3 className="text-lg  font-semibold mb-1">{product.title}</h3>
-                       </header>
+                      <div className="relative">
+                        <Image key={uuidv4()}
+                          alt={product.description}
+                          height={301}
+                          width={226}
+                          style={{ objectFit: "cover" }}
+                          src={product.url_img ? product.url_img : imgSrc} //{product.url_img ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/public-resources/${product.url_img}` : "/images/no_image.png"}
+                          priority
+                          className="rounded-t w-full h-32"
+                          onError={() => setImgSrc('/assets/no_image.png')}
+                        />
+                      </div>
 
-                       <div className="text-sm h-28">
-                         <span>{product.description.length > 250 ?
-                           `${product.description.substring(0, 220)}...` : product.description
-                         }</span>
+                      {/* Card Content */}
+                      <div className="grow flex flex-col p-3 text-slate-600 ">
+                        {/* Card body */}
+                        <div className="grow">
+                          <header className="mb-2">
+                            <h3 className="text-lg  font-semibold mb-1">{product.title}</h3>
+                          </header>
+
+                          <div className="text-sm h-28">
+                            <span>{product.description.length > 250 ?
+                              `${product.description.substring(0, 220)}...` : product.description
+                            }</span>
 
 
-                       </div>
-                       <div>
-                         {product.categories.split(';').map((category: string | null, index: number) => (
-                           <span key={uuidv4()}>
-                             {index > 3 ? (null)
-                               :
-                               (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{category}</span>
-                               )}
-                           </span>
-                         ))}
-                       </div>
-                     </div>
-                   </div>
-                 </Link>
-               </div>
-             </div>
+                          </div>
+                          <div>
+                            {product.categories.split(';').map((category: string | null, index: number) => (
+                              <span key={uuidv4()}>
+                                {index > 3 ? (null)
+                                  :
+                                  (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{category}</span>
+                                  )}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
               )
               )}
             </div>
@@ -166,9 +167,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 }
 
-export const getStaticProps: GetStaticProps = async(context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
 
-  const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`).order("featured_duration", { ascending: true }, {nullsLast: true})
+  const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`).order("featured_duration", { ascending: true }, { nullsLast: true })
 
 
   return {
