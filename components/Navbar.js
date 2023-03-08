@@ -63,7 +63,15 @@ export default function Navbar() {
                                 <li>
                                     <Link href="/submit-resource" className=" px-4 py-3 flex items-center transition duration-150 ease-in-out">Submit a resource</Link>
                                 </li>
+<<<<<<< HEAD
                         
+=======
+
+                                <li>
+                                    <Link href="/promote-resource" className=" px-4 py-3 flex items-center transition duration-150 ease-in-out">Promote a resource</Link>
+                                </li>
+
+>>>>>>> f94c6d0 (init)
                             </ul>
 
                         </nav>
@@ -89,6 +97,10 @@ export default function Navbar() {
                                     </li>
                                     <li>
                                         <Link href="/submit-resource" className="flex text-gray-300 hover:text-gray-200 py-2">Submit a resource</Link>
+                                    </li>
+
+                                    <li>
+                                        <Link href="/promote-resource" className="flex text-gray-300 hover:text-gray-200 py-2">Promote a resource</Link>
                                     </li>
                                 </ul>
                             </nav>
