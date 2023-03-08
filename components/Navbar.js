@@ -57,11 +57,13 @@ export default function Navbar() {
 
                             {/* Desktop links */}
                             <ul className="flex grow justify-end flex-wrap items-center">
+                                
                                 <li>
-                                    <Link href="/" className=" px-4 py-3 flex items-center transition duration-150 ease-in-out">Home</Link>
+                                    <Link href="/promote-resource" className=" px-4 py-3 flex items-center hover:text-orange-300 transition duration-150 ease-in-out">Promote a resource</Link>
                                 </li>
+
                                 <li>
-                                    <Link href="/submit-resource" className=" px-4 py-3 flex items-center transition duration-150 ease-in-out">Submit a resource</Link>
+                                    <Link href="/submit-resource" className="bg-teal-600 hover:bg-orange-300 text-white font-bold py-2 px-4 rounded">Submit a resource</Link>
                                 </li>
 
                                 <li>

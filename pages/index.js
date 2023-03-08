@@ -12,10 +12,10 @@ export default function Home(props) {
 
   const [query, setQuery] = useState('');
 
-  //Our search filter function
+  //Our search filter function on description, title or tag
   const searchFilter = (array) => {
     return array.filter(
-      (el) => el.title.toLowerCase().includes(query) || el.description.toLowerCase().includes(query)
+      (el) => el.title.toLowerCase().includes(query) || el.description.toLowerCase().includes(query) || el.tags.toLowerCase().includes(query)
     )
   }
 
@@ -58,7 +58,7 @@ export default function Home(props) {
           <p className="text-gray-700 dark:text-gray-200 mr-4 ">Categories:</p>
           {props.categories.map((category) => (
             <Link key={uuidv4()} href={`/category/${category}`}>
-              <span className="inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600 hover:bg-teal-500">{category}</span>
+              <span className="mt-2 inline-flex px-3 mr-2 py-1 rounded-full text-sm font-semibold text-gray-100 text-center bg-teal-600 hover:bg-teal-500">{category}</span>
             </Link>
           ))}
         </div>
@@ -107,6 +107,9 @@ export default function Home(props) {
                         </div>
                         <div>
                           <span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{product.categories}</span>
+                          
+                          {product.featured ? (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">Featured</span>) : (null)}
+
 
                           {product.tags && product.tags.trim() !== "" && product.tags.split(";").map(tag => (
                             <span key={uuidv4()} className="inline-flex px-1 mr-1 py-1  text-sm text-slate-400 text-center">#{tag}</span>
@@ -132,7 +135,7 @@ export default function Home(props) {
 }
 
 export const getServerSideProps = async () => {
-  const { data: product_details } = await supabase.from("Resources").select("*").eq("status", "published");
+  const { data: product_details } = await supabase.from("Resources").select("*").eq("status", "published").order("featured_duration", { ascending: true }, { nullsLast: true });
 
 
   const categories = Array.from(new Set(product_details.flatMap((product) => {
@@ -141,6 +144,7 @@ export const getServerSideProps = async () => {
     }
     return [];
   })));
+
 
 
   return {
