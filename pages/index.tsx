@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import { useState } from 'react'
 
 interface Product {
+  id: number;
   title: string;
   description: string;
   tags: string;
@@ -16,23 +17,23 @@ interface Product {
   featured: boolean;
   categories: string;
 
-  }
-  
-  interface HomeProps {
+}
+
+interface HomeProps {
   product_details: Product[];
   categories: string[];
-  }
+}
 
 export default function Home(props: HomeProps): JSX.Element {
 
-  const [imgSrc, setImgSrc] = React.useState('/assets/no_image.png');
+  const [imageError, setImageError] = useState(new Map<string, boolean>());
   const [query, setQuery] = useState('');
 
   //Our search filter function on description, title or tag
-const searchFilter = (array: Product[]): Product[] => {
-  return array.filter(
-  (el) => el.title.toLowerCase().includes(query) || el.description.toLowerCase().includes(query) || el.tags.toLowerCase().includes(query)
-  );
+  const searchFilter = (array: Product[]): Product[] => {
+    return array.filter(
+      (el) => el.title.toLowerCase().includes(query) || el.description.toLowerCase().includes(query) || el.tags.toLowerCase().includes(query)
+    );
   };
 
   //Applying our search filter function to our array of countries recieved from the API
@@ -41,7 +42,12 @@ const searchFilter = (array: Product[]): Product[] => {
   //Handling the input on our search bar
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setQuery(e.target.value);
-    };
+  };
+
+  //Handling image error
+  function handleImageError(productId: string) {
+    setImageError(imageError.set(productId, true));
+  }
 
   return (<>
     <Container>
@@ -93,16 +99,19 @@ const searchFilter = (array: Product[]): Product[] => {
 
                   <Link href={product.url_resource} target="_blank">
                     <div className="relative">
+
                       <Image key={uuidv4()}
                         alt={product.description}
                         height={301}
                         width={301}
                         style={{ objectFit: "cover" }}
-                        src={product.url_img ? product.url_img : "/images/no_image.png"}
+                        src={!imageError.get(product.id.toString()) && product.url_img ? product.url_img : "/images/no_image.png"}
                         priority
                         className="rounded-t w-full h-36"
-                        onError={() => setImgSrc('/assets/no_image.png')}
-                        />
+                        onError={() => {
+                          handleImageError(product.id.toString());
+                        }}
+                      />
                     </div>
 
                     {/* Card Content */}
@@ -122,7 +131,7 @@ const searchFilter = (array: Product[]): Product[] => {
                         </div>
                         <div>
                           <span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">{product.categories}</span>
-                          
+
                           {product.featured ? (<span key={uuidv4()} className="inline-flex px-1 mr-1 py-1 rounded-sm text-sm text-gray-50 text-center bg-slate-400">Featured</span>) : (null)}
 
 

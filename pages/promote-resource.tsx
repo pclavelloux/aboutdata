@@ -29,6 +29,7 @@ interface PromoteProps {
 
 export default function Promote(props: PromoteProps) {
 
+    const [imageError, setImageError] = useState(new Map<string, boolean>());
     const [category, setCategory] = useState<string>('Twitter Account')
     const [resourceId, setResourceId] = useState<number>(1)
     const [totalFeatured, setTotalFeatured] = useState<number>(0)
@@ -96,6 +97,11 @@ export default function Promote(props: PromoteProps) {
     //Handling the input on our search bar
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(e.target.value)
+    }
+
+    //Handling image error
+    function handleImageError(productId: string) {
+        setImageError(imageError.set(productId, true));
     }
 
     return (<>
@@ -184,15 +190,20 @@ export default function Promote(props: PromoteProps) {
                                             />
                                             {/* Image */}
                                             <div className="relative">
+
                                                 <Image key={uuidv4()}
                                                     alt={product.description}
                                                     height={301}
                                                     width={226}
                                                     style={{ objectFit: "cover" }}
-                                                    src={product.url_img ? product.url_img : "/images/no_image.png"}
+                                                    src={!imageError.get(product.id.toString()) && product.url_img ? product.url_img : "/images/no_image.png"}
                                                     priority
                                                     className="rounded-t w-full h-32"
+                                                    onError={() => {
+                                                        handleImageError(product.id.toString());
+                                                    }}
                                                 />
+
                                             </div>
 
                                             {/* Card Content */}

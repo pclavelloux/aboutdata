@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import { useState } from 'react'
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
+import { GetStaticProps, GetStaticPaths } from 'next'
 
 interface Product {
   title: string;
@@ -24,9 +24,8 @@ interface Props {
 
 export default function Category({ products, category }: Props) {
 
-  const [imgSrc, setImgSrc] = React.useState('/assets/no_image.png');
 
-
+  const [imageError, setImageError] = useState(new Map<string, boolean>());
   const [query, setQuery] = useState('');
 
   //Our search filter function
@@ -43,6 +42,11 @@ export default function Category({ products, category }: Props) {
   //Handling the input on our search bar
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
+  }
+
+  //Handling image error
+  function handleImageError(productId: string) {
+    setImageError(imageError.set(productId, true));
   }
 
   return (
@@ -102,11 +106,14 @@ export default function Category({ products, category }: Props) {
                           height={301}
                           width={226}
                           style={{ objectFit: "cover" }}
-                          src={product.url_img ? product.url_img : imgSrc} //{product.url_img ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/public-resources/${product.url_img}` : "/images/no_image.png"}
+                          src={!imageError.get(product.id.toString()) && product.url_img ? product.url_img : "/images/no_image.png"}
                           priority
                           className="rounded-t w-full h-32"
-                          onError={() => setImgSrc('/assets/no_image.png')}
+                          onError={() => {
+                            handleImageError(product.id.toString());
+                          }}
                         />
+
                       </div>
 
                       {/* Card Content */}
@@ -163,7 +170,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         }
       }
     }),
-    fallback: false,
+    fallback: true,
   };
 }
 
