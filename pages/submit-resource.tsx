@@ -68,6 +68,7 @@ export default function SubmitResource() {
             if (resourceData) {
                 console.log(resourceData);
                 alert("Resource succesfully sent, thank you!");
+                setResourceData(initialState);
             } else if (resourceError) {
                 alert("Something went wrong, please try again or contact Pauline_Cx to report this issue");
             }
