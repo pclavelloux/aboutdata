@@ -6,26 +6,40 @@ import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import { useState } from 'react'
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
 
+interface Product {
+  title: string;
+  description: string;
+  url_resource : string;
+  url_img : string;
+  categories: string;
 
-export default function Category({ products, category }) {
+}
+
+interface Props {
+  products: Product[];
+  category: string;
+}
+
+export default function Category({ products, category }: Props) {
 
 
   const [query, setQuery] = useState('');
 
    //Our search filter function
-   const searchFilter = (array) => {
+   const searchFilter = (array: any[]) => {
     return array.filter(
       (el) => el.title.toLowerCase().includes(query) || el.description.toLowerCase().includes(query)
     )
   }
 
     //Applying our search filter function to our array of countries recieved from the API
-    const filtered = searchFilter(products)
+    const filtered = products ? searchFilter(products) : [];
 
 
   //Handling the input on our search bar
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
   }
 
@@ -110,7 +124,7 @@ export default function Category({ products, category }) {
 
                        </div>
                        <div>
-                         {product.categories.split(';').map((category, index) => (
+                         {product.categories.split(';').map((category: string | null, index: number) => (
                            <span key={uuidv4()}>
                              {index > 3 ? (null)
                                :
@@ -134,13 +148,14 @@ export default function Category({ products, category }) {
     </>
   )
 }
-export async function getStaticPaths() {
+
+export const getStaticPaths: GetStaticPaths = async () => {
   const { data: products } = await supabase.from("Resources").select("categories");
 
-  const categories = new Set(products.flatMap((product) => product.categories.split(';')));  // Create a page for each tag (splitted with ";")
+  const categories = new Set<string>(products?.flatMap((product) => product.categories.split(';').filter(Boolean)));  // Create a page for each tag (splitted with ";")
 
   return {
-    paths: [...categories].map((category) => {
+    paths: [...categories].map((category: string) => {
       return {
         params: {
           category
@@ -151,7 +166,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params: { category } }) {
+export const getStaticProps: GetStaticProps = async(context) => {
 
   const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`).order("featured_duration", { ascending: true }, {nullsLast: true})
 
