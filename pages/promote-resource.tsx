@@ -10,24 +10,27 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from 'axios'
 import Link from 'next/link';
 
+interface Resource {
+    id: number;
+    title: string;
+    description: string;
+    url: string;
+    url_img: string;
+    categories: string;
+    tags: string;
+    featured: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
 interface PromoteProps {
-    product_details: Array<{
-        id: number;
-        title: string;
-        description: string;
-        url: string;
-        categories: Array<string>;
-        tags: Array<string>;
-        featured: boolean;
-        created_at: string;
-        updated_at: string;
-    }>
+    product_details: Resource[];
 }
 
 export default function Promote(props: PromoteProps) {
 
     const [category, setCategory] = useState<string>('Twitter Account')
-    const [resourceId, setResourceId] = useState<number | null>(1)
+    const [resourceId, setResourceId] = useState<number>(1)
     const [totalFeatured, setTotalFeatured] = useState<number>(0)
     const [query, setQuery] = useState<string>('')
 
@@ -39,7 +42,6 @@ export default function Promote(props: PromoteProps) {
         setResourceId(Number(newId));
         const newTotalFeatured = await getTotalFeaturedByCategory(newCategory);
         setTotalFeatured(newTotalFeatured);
-        console.log(newTotalFeatured);
     };
 
     async function getTotalFeaturedByCategory(category: string) {
@@ -111,7 +113,7 @@ export default function Promote(props: PromoteProps) {
                             <h3 className='h4 font-semibold'>Promote a resource</h3>
                             <p>1. Use the search bar to find a resource. <br />2. Click on the resource you want to promote <br />
                                 3. After clicking the &quot;Promote&quot; button are redirected to the checkout. <br />
-                                4. Choose a quantity, i.e the number of months to staid promoted. <br/> Ex: A quantity of 3 means the resource will be promoted for 3 months.
+                                4. Choose a quantity, i.e the number of months to staid promoted. <br /> Ex: A quantity of 3 means the resource will be promoted for 3 months.
                                 <br /> <span className='text-sm'>Note : If your resource doesn&lsquo;t appear you need to add it first <Link href="submit-resource">here</Link> or contact <Link href="https://twitter.com/Pauline_Cx">Pauline</Link> </span>
                             </p>
 
@@ -146,7 +148,11 @@ export default function Promote(props: PromoteProps) {
                         </div>
 
                         {totalFeatured > 8 ? (<p className='text-orange-300'>Sorry, all promoted seats have been filled for the category {category}</p>) : (
-                            <a onClick={() => handleBuyClick(process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTH_PROMOTE, resourceId)}    >
+                            <a onClick={() => {
+                                if (process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTH_PROMOTE) {
+                                    handleBuyClick(process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTH_PROMOTE, resourceId)
+                                }
+                            }}>
                                 <button className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-full">
                                     Promote - 60€
                                 </button>
@@ -169,12 +175,12 @@ export default function Promote(props: PromoteProps) {
                                     <label>
                                         <div key={uuidv4()} className="flex flex-col ">
                                             <input
-                                                id={product.id}
+                                                id={product.id.toString()}
                                                 type="radio"
                                                 name="resource"
                                                 value={product.categories}
                                                 onChange={handleCategoryChange}
-                                                checked={parseInt(resourceId) === parseInt(product.id)}
+                                                checked={resourceId === product.id}
                                             />
                                             {/* Image */}
                                             <div className="relative">
