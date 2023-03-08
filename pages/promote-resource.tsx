@@ -42,7 +42,6 @@ export default function Promote(props: PromoteProps) {
         setResourceId(Number(newId));
         const newTotalFeatured = await getTotalFeaturedByCategory(newCategory);
         setTotalFeatured(newTotalFeatured);
-        console.log(newTotalFeatured);
     };
 
     async function getTotalFeaturedByCategory(category: string) {
