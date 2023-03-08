@@ -58,9 +58,9 @@ export default function Home(props: HomeProps): JSX.Element {
             <h1 className="h1 text-5xl mb-2 bg-gradient-to-r bg-clip-text  text-center text-transparent  from-teal-500 via-teal-600 to-blue-600 animate-text pb-1" >
               All about data
             </h1>
-            <h2 className="text-gray-400 mb-4 ">
-              Best data resources on internet
-              <br />For all data enthusiasts
+            <h2 className="text-gray-400 mb-4 text-xl ">
+              Find the best data resources on internet
+              <br />& participate by sharing your gold resources 
             </h2>
             <div className='w-full m-auto mt-5 relative flex flex-col md:flex-row justify-between items-start md:items-center gap-5 md:gap-0'>
               <div className="absolute inset-y-0 flex items-center justify-center rounded-full pointer-events-none w-7 h-7 left-2 top-2.5 ">

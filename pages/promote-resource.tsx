@@ -119,7 +119,7 @@ export default function Promote(props: PromoteProps) {
                             <h3 className='h4 font-semibold'>Promote a resource</h3>
                             <p>1. Use the search bar to find a resource. <br />2. Click on the resource you want to promote <br />
                                 3. After clicking the &quot;Promote&quot; button are redirected to the checkout. <br />
-                                4. Choose a quantity, i.e the number of months to staid promoted. <br /> Ex: A quantity of 3 means the resource will be promoted for 3 months.
+                                4. Choose a quantity <span className='text-sm'>(i.e the number of months to stay promoted. <br /> Ex: A quantity of 3 means the resource will be promoted for 3 months.)</span>
                                 <br /> <span className='text-sm'>Note : If your resource doesn&lsquo;t appear you need to add it first <Link href="submit-resource">here</Link> or contact <Link href="https://twitter.com/Pauline_Cx">Pauline</Link> </span>
                             </p>
 

@@ -67,7 +67,7 @@ export default function SubmitResource() {
             console.log(resourceData);
             if (resourceData) {
                 console.log(resourceData);
-                alert("Resource succesfully sent, thank you!");
+                alert("Resource successfully sent. It will be reviewed before being published. Thank you for contributing!");
                 setResourceData(initialState);
             } else if (resourceError) {
                 alert("Something went wrong, please try again or contact Pauline_Cx to report this issue");
@@ -125,15 +125,28 @@ export default function SubmitResource() {
                                                         onChange={handleChange}
                                                     ></textarea>
                                                 </label>
+
                                                 <label className="block mb-6">
-                                                    <h3 className=" leading-snug mt-5 font-bold mb-1">Main category*  <span className='text-xs'>(separated with &apos;;&apos;)</span></h3>
-                                                    <textarea
+                                                    <h3 className="leading-snug mt-5 font-bold mb-1">Main category* </h3>
+                                                    <select
                                                         name="categories"
-                                                        className=" block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
-                                                        rows={1} placeholder="Twitter account;Course;Blog"
-                                                        value={categories} onChange={handleChange}
-                                                    ></textarea>
+                                                        className="block w-full mt-1 pl-1 border-gray-300 rounded-md text-teal-600 shadow-sm focus:border-gray-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                        value={categories}
+                                                        onChange={handleChange}
+                                                    >
+                                                        <option value="">Select a category</option>
+                                                        <option value="Miscellaneous">Miscellaneous</option>
+                                                        <option value="Library">Library</option>
+                                                        <option value="Twitter Account">Twitter Account</option>
+                                                        <option value="Community">Community</option>
+                                                        <option value="Tool">Tool</option>
+                                                        <option value="Blog">Blog</option>
+                                                        <option value="Mentoring">Mentoring</option>
+                                                        <option value="Course">Course</option>
+                                                    </select>
                                                 </label>
+
+
                                                 <label className="block mb-6">
                                                     <h3 className=" leading-snug mt-5 font-bold mb-1">Tags  <span className='text-xs'>(separated with &apos;;&apos;)</span></h3>
                                                     <textarea
