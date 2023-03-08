@@ -10,7 +10,7 @@ export default function Footer() {
                         {/* Copyright */}
                         <div className="text-sm text-slate-500 mr-4">&copy;
                            Made with <span className='text-red-400'>♥</span> by <Link href="https://twitter.com/Pauline_Cx"  target="_blank">Pauline </Link>
-                            
+                         <br /> <Link href="/terms-use" className='text-sm text-slate-500 hover:text-teal-500'>Terms & Conditions  </Link> 
                         </div>
                         <br />
                     </div>
