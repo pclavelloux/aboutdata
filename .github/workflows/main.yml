@@ -14,7 +14,7 @@ env:
   STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
   STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
   NEXT_PUBLIC_STRIPE_PRICE_MONTH_PROMOTE: ${{ secrets.NEXT_PUBLIC_STRIPE_PRICE_MONTH_PROMOTE }}
-  CLOUD_RUN_REGION: europe-west9
+  CLOUD_RUN_REGION: europe-west1
   # project-name but it can be anything you want
   REPO_NAME: aboutdata-website
 
