@@ -143,6 +143,7 @@ export default function SubmitResource() {
                                                         <option value="Blog">Blog</option>
                                                         <option value="Mentoring">Mentoring</option>
                                                         <option value="Course">Course</option>
+                                                        <option value="Other">Other</option>
                                                     </select>
                                                 </label>
 
