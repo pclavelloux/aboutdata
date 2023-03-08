@@ -167,9 +167,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
 
-  const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`).order("featured_duration", { ascending: true }, { nullsLast: true })
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const category = params?.category as string;
+
+
+  const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`).order("featured_duration", { ascending: true })
 
 
   return {

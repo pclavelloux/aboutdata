@@ -7,25 +7,41 @@ import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import { useState } from 'react'
 
+interface Product {
+  title: string;
+  description: string;
+  tags: string;
+  url_resource: string;
+  url_img?: string;
+  featured: boolean;
+  categories: string;
 
-export default function Home(props) {
+  }
+  
+  interface HomeProps {
+  product_details: Product[];
+  categories: string[];
+  }
 
+export default function Home(props: HomeProps): JSX.Element {
+
+  const [imgSrc, setImgSrc] = React.useState('/assets/no_image.png');
   const [query, setQuery] = useState('');
 
   //Our search filter function on description, title or tag
-  const searchFilter = (array) => {
-    return array.filter(
-      (el) => el.title.toLowerCase().includes(query) || el.description.toLowerCase().includes(query) || el.tags.toLowerCase().includes(query)
-    )
-  }
+const searchFilter = (array: Product[]): Product[] => {
+  return array.filter(
+  (el) => el.title.toLowerCase().includes(query) || el.description.toLowerCase().includes(query) || el.tags.toLowerCase().includes(query)
+  );
+  };
 
   //Applying our search filter function to our array of countries recieved from the API
   const filtered = searchFilter(props.product_details)
 
   //Handling the input on our search bar
-  const handleChange = (e) => {
-    setQuery(e.target.value)
-  }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setQuery(e.target.value);
+    };
 
   return (<>
     <Container>
@@ -85,9 +101,8 @@ export default function Home(props) {
                         src={product.url_img ? product.url_img : "/images/no_image.png"}
                         priority
                         className="rounded-t w-full h-36"
-                        onError={(e) => {
-                          e.target.src = "/images/no_image.png";
-                        }} />
+                        onError={() => setImgSrc('/assets/no_image.png')}
+                        />
                     </div>
 
                     {/* Card Content */}
@@ -135,10 +150,10 @@ export default function Home(props) {
 }
 
 export const getServerSideProps = async () => {
-  const { data: product_details } = await supabase.from("Resources").select("*").eq("status", "published").order("featured_duration", { ascending: true }, { nullsLast: true });
+  const { data: product_details } = await supabase.from("Resources").select("*").eq("status", "published").order("featured_duration", { ascending: true });
 
 
-  const categories = Array.from(new Set(product_details.flatMap((product) => {
+  const categories = Array.from(new Set(product_details?.flatMap((product) => {
     if (product.categories) {
       return product.categories.split(';');
     }
