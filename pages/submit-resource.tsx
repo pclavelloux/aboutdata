@@ -25,7 +25,7 @@ export default function SubmitResource() {
 
 
     // When form value is changed
-    const handleChange = <T extends HTMLInputElement | HTMLTextAreaElement>(e: React.ChangeEvent<T>) => {
+    const handleChange = <T extends HTMLInputElement | HTMLTextAreaElement| HTMLSelectElement>(e: React.ChangeEvent<T>) => {
         setResourceData({ ...resourceData, [e.target.name]: e.target.value });
     };
 
