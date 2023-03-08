@@ -169,10 +169,6 @@ export const getStaticProps: GetStaticProps = async(context) => {
   const  category  = context.params?.category;
   const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`)
 
-<<<<<<< HEAD:pages/category/[category].tsx
-=======
-
->>>>>>> f94c6d0 (init):pages/category/[category].js
   return {
     props: {
       products,
