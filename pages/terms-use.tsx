@@ -1,6 +1,7 @@
 import React from 'react'
 import Container from '@/components/Container';
 import Navbar from '@/components/Navbar';
+import Link from 'next/link';
 
 export default function tos() {
     return (
@@ -26,7 +27,7 @@ export default function tos() {
                                 Our website provides users with resources related to data profession. 
                                 Users can browse and search for resources, as well as add new resources. 
                                 All added resources will be reviewed by administrator before being published.
-                                If you own a resource, you can contact (pauline@wintopy.io) to edit it, delete it, or promote it.
+                                If you own a resource, you can contact <Link href="https://twitter.com/Pauline_Cx">Pauline_Cx</Link> to edit it, delete it, or promote it.
                                 Promote resources will be displayed to the top of the page and will be clearly identifiable as promoted resources.
                         
                             </p>
