@@ -21,7 +21,7 @@ export default function SubmitResource() {
     };
 
     const [resourceData, setResourceData] = useState(initialState);
-    const { title, description, url_resource, url_img, categories, tags } = resourceData;
+    const { title, description, url_resource, url_img, categories, tags, featured_duration} = resourceData;
 
 
 
@@ -61,6 +61,7 @@ export default function SubmitResource() {
                         url_img,
                         tags,
                         categories,
+                        featured_duration,
                     },
                 ])
                 .select('*')
