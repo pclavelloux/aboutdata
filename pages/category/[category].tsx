@@ -179,7 +179,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const category = params?.category as string;
 
 
-  const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`).order("featured_duration", { ascending: true })
+  const { data: products } = await supabase.from("Resources").select().like('categories', `%${category}%`).order("featured_duration", { ascending: false })
 
 
   return {

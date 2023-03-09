@@ -17,6 +17,7 @@ export default function SubmitResource() {
         tags: "",
         status: "unpublished",
         featured: "",
+        featured_duration: 0,
     };
 
     const [resourceData, setResourceData] = useState(initialState);

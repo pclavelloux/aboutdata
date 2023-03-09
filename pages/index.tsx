@@ -159,7 +159,7 @@ export default function Home(props: HomeProps): JSX.Element {
 }
 
 export const getServerSideProps = async () => {
-  const { data: product_details } = await supabase.from("Resources").select("*").eq("status", "published").order("featured_duration", { ascending: true });
+  const { data: product_details } = await supabase.from("Resources").select("*").eq("status", "published").order("featured_duration", { ascending: false });
 
 
   const categories = Array.from(new Set(product_details?.flatMap((product) => {
