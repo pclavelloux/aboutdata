@@ -187,5 +187,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       products,
       category
     },
+    revalidate: 10,
   };
 }
